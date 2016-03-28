@@ -1,4 +1,6 @@
-IMAGE_NAME := youske/alpine-redis
+CNAME := redis
+IMAGE_NAME = youske/alpine-$(CNAME)
+INSTANT_CONTAINER_NAME = instant_cont_$(CNAME)
 
 build: Dockerfile redis.conf
 	docker build --file Dockerfile --tag $(IMAGE_NAME) .
@@ -7,13 +9,15 @@ build_nocache: Dockerfile redis.conf
 	docker build --no-cache --pull --file Dockerfile --tag $(IMAGE_NAME) .
 
 run:
-	docker run -it --rm ${IMAGE_NAME} ${ARGS}
+	docker run -it --name "${INSTANT_CONTAINER_NAME}" --rm ${IMAGE_NAME} ${ARGS}
+
+shell:
+	docker exec -it ${INSTANT_CONTAINER_NAME} /bin/bash
 
 daemon:
 	docker run -d ${IMAGE_NAME} ${ARGS}
 
 push: build
-	docker tag -f ${IMAGE_NAME}:latest
 	docker push ${IMAGE_NAME}:latest
 
 notag: 

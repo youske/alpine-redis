@@ -1,6 +1,3 @@
 #!/bin/sh -e
-if [ "$1" = 'redis-server' ] ; then
-  chown -R redis .
-  exec gosu redis "$@"
-fi
+[ "$1" = 'redis-server' ] && { chown -R redis . ; exec gosu redis "$@" ; } || :
 exec "$@"
