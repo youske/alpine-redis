@@ -1,0 +1,28 @@
+version: "2"
+services:
+
+  redisimage:
+    container_name: redis
+    build: build
+    ulimits:
+      nofile:
+        soft: 20000
+        hard: 40000
+      nproc: 65535
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/redis_data
+      - redislog:/redis_log
+    networks:
+      - front
+
+volumes:
+  redisdata:
+    driver: local
+  redislog:
+    driver: local
+
+networks:
+  front:
+    driver: bridge

@@ -47,7 +47,7 @@ pidfile /var/run/redis/redis.pid
 
 # Accept connections on the specified port, default is 6379.
 # If port 0 is specified Redis will not listen on a TCP socket.
-port 6379
+port {{ var "PORT" | default "6379" }}
 
 # TCP listen() backlog.
 #
@@ -67,7 +67,7 @@ tcp-backlog 127
 #
 # bind 192.168.1.100 10.0.0.1
 # bind 127.0.0.1
-bind 0.0.0.0
+bind {{ var "BIND" | default "0.0.0.0" }}
 
 # Specify the path for the Unix socket that will be used to listen for
 # incoming connections. There is no default, so Redis will not listen
@@ -77,7 +77,7 @@ unixsocket /tmp/redis.sock
 unixsocketperm 770
 
 # Close the connection after a client is idle for N seconds (0 to disable)
-timeout 3600
+timeout {{ var "TIMEOUT" | default "3600" }}
 
 # TCP keepalive.
 #
@@ -121,10 +121,10 @@ logfile /var/log/redis/redis.log
 # Set the number of databases. The default database is DB 0, you can select
 # a different one on a per-connection basis using SELECT <dbid> where
 # dbid is a number between 0 and 'databases'-1
-databases 16
+databases {{ var "DATABASES" | default "8" }}
 
 ################################ SNAPSHOTTING  ################################
-#
+
 # Save the DB on disk:
 #
 #   save <seconds> <changes>
@@ -190,7 +190,7 @@ dbfilename dump.rdb
 # The Append Only File will also be created inside this directory.
 #
 # Note that you must specify a directory here, not a file name.
-dir /var/lib/redis
+dir {{ var "DATA_DIR" | default "/redis_data" }}
 
 ################################# REPLICATION #################################
 
@@ -426,7 +426,7 @@ slave-priority 100
 # Once the limit is reached Redis will close all the new connections sending
 # an error 'max number of clients reached'.
 #
-# maxclients 10000
+maxclients {{ var "MAXCLIENT" | default "10000" }}
 
 # Don't use more memory than the specified amount of bytes.
 # When the memory limit is reached Redis will try to remove keys
@@ -451,7 +451,7 @@ slave-priority 100
 # limit for maxmemory so that there is some free RAM on the system for slave
 # output buffers (but this is not needed if the policy is 'noeviction').
 #
-# maxmemory <bytes>
+maxmemory {{ var "MAXMEMORY" | default "67108864"}}
 
 # MAXMEMORY POLICY: how Redis will select what to remove when maxmemory
 # is reached. You can select among five behaviors:
