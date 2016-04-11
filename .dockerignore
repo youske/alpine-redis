@@ -1,4 +1,7 @@
-.git
-.gitignore
+node_modules/
+vendor/
+tests/
+
+.git*
 LICENSE
 README*
