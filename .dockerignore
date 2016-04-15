@@ -1,7 +1,18 @@
+#
 node_modules/
 vendor/
 tests/
 
+#
 .git*
-LICENSE
+.sync-config.cson
+.remote-sync.json
+LICENSE*
 README*
+
+.tags
+*.swp
+*.lock
+*.lck
+*.*~
+*~
