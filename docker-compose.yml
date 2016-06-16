@@ -1,8 +1,7 @@
 version: "2"
 services:
 
-  redisimage:
-    container_name: redis
+  base:
     build: build
     ulimits:
       nofile:
@@ -14,15 +13,9 @@ services:
     volumes:
       - redisdata:/redis_data
       - redislog:/redis_log
-    networks:
-      - front
 
 volumes:
   redisdata:
     driver: local
   redislog:
     driver: local
-
-networks:
-  front:
-    driver: bridge
