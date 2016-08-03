@@ -14,13 +14,10 @@ ENV LANG=C.UTF-8 \
 
 RUN apk add --no-cache ${PACKAGE}
 RUN mkdir -p ${DATA_DIR} ${LOG_DIR}
-
 COPY redis.conf.tmpl /etc/redis.conf.tmpl
-
 
 RUN rm -rf /tmp/* && rm -rf /var/cache/apk/*
 
-
 EXPOSE ${PORT}
 ENTRYPOINT ["render","/etc/redis.conf","--","switch","shell=/bin/bash","--","/init"]
-CMD ["redis-server"]
+CMD ["gosu","admin","redis-server"]

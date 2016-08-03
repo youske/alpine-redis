@@ -4,10 +4,10 @@ services:
   base:
     build: build
     ulimits:
+      nproc: 65535
       nofile:
         soft: 20000
         hard: 40000
-      nproc: 65535
     ports:
       - "6379:6379"
     volumes:
