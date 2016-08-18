@@ -93,7 +93,7 @@ timeout {{ var "TIMEOUT" | default "3600" }}
 # On other kernels the period depends on the kernel configuration.
 #
 # A reasonable value for this option is 60 seconds.
-tcp-keepalive 0
+tcp-keepalive {{ var "KEEPALIVE" | default "320" }}
 
 # Specify the server verbosity level.
 # This can be one of:
@@ -101,12 +101,12 @@ tcp-keepalive 0
 # verbose (many rarely useful info, but not a mess like the debug level)
 # notice (moderately verbose, what you want in production probably)
 # warning (only very important / critical messages are logged)
-loglevel warning
+loglevel {{ var "LOGLEVEL" | default "warning" }}
 
 # Specify the log file name. Also the empty string can be used to force
 # Redis to log on the standard output. Note that if you use standard
 # output for logging but daemonize, logs will be sent to /dev/null
-logfile /redis_log/redis.log
+logfile {{ var "LOG_DIR" | default "/redis_log" }}/redis.log
 
 # To enable logging to the system logger, just set 'syslog-enabled' to yes,
 # and optionally update the other syslog parameters to suit your needs.

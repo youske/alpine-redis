@@ -1,22 +1,24 @@
 # Alpine Linux with redis
 
-FROM youske/alpine-std:latest
+FROM youske/alpine-stdmachine:base
 MAINTAINER youske miyakoshi <youske@gmail.com>
 
-LABEL com.geeplus.description="alpine redis image" \
-      com.geeplus.role="cache"
+LABEL com.stdmachine.description="alpine redis image" \
+      com.stdmachine.role="radis image"
 
-ENV LANG=C.UTF-8 \
-    DATA_DIR=/redis_data \
+ENV DATA_DIR=/redis_data \
     LOG_DIR=/redis_log \
-    PORT=6379 \
-    PACKAGE='redis'
+    LOGLEVEL=warning \
+    DATABASES=8 \
+    TIMEOUT=3000 \
+    PORT=6379
 
-RUN apk add --no-cache ${PACKAGE}
-RUN mkdir -p ${DATA_DIR} ${LOG_DIR}
+RUN apk add redis --no-cache
+RUN mkdir -p ${DATA_DIR} && mkdir -p ${LOG_DIR} && \
+    chown -R admin:admin ${DATA_DIR} && chown -R admin:admin ${LOG_DIR} && \
+    rm -rf /tmp/* && rm -rf /var/cache/apk/*
+
 COPY redis.conf.tmpl /etc/redis.conf.tmpl
-
-RUN rm -rf /tmp/* && rm -rf /var/cache/apk/*
 
 EXPOSE ${PORT}
 ENTRYPOINT ["render","/etc/redis.conf","--","switch","shell=/bin/bash","--","/init"]
