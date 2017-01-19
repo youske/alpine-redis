@@ -13,13 +13,13 @@ ENV DATA_DIR=/redis_data \
     TIMEOUT=3000 \
     PORT=6379
 
-RUN apk add redis --no-cache
-RUN mkdir -p ${DATA_DIR} && mkdir -p ${LOG_DIR} && \
+RUN PACKAGE="redis" &&  \
+    apk add ${PACKAGE} --no-cache && \
+    mkdir -p ${DATA_DIR} && mkdir -p ${LOG_DIR} && \
     chown -R admin:admin ${DATA_DIR} && chown -R admin:admin ${LOG_DIR} && \
     rm -rf /tmp/* && rm -rf /var/cache/apk/*
 
 COPY redis.conf.tmpl /etc/redis.conf.tmpl
-
 EXPOSE ${PORT}
 ENTRYPOINT ["render","/etc/redis.conf","--","switch","shell=/bin/bash","--","/init"]
 CMD ["gosu","admin","redis-server"]
