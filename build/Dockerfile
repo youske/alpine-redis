@@ -1,6 +1,5 @@
 # Alpine Linux with redis
-
-FROM youske/alpine-stdmachine:base
+FROM youske/alpine-stdmachine:latest
 MAINTAINER youske miyakoshi <youske@gmail.com>
 
 LABEL com.stdmachine.description="alpine redis image" \
